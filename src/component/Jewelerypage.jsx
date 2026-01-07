@@ -22,7 +22,7 @@ const Jewelerypage = ({nav}) => {
   return (
     <>
     {nav}
-
+    <div style={{ marginTop: '70px' }}>
     <div className="Product-full-div">
       {filterproduct.map((item, indx) => {
         return (
@@ -36,6 +36,7 @@ const Jewelerypage = ({nav}) => {
           </div>
         );
       })}
+    </div>
     </div>
     </>
   );

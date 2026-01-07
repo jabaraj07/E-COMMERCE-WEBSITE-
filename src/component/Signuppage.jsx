@@ -80,7 +80,7 @@ const Signuppage = ({nav1}) => {
 
         <div className="signup-content-full-div">
 
-          <h3 style={{textAlign:"center",marginTop:20}}>Sign Up Form</h3>
+          <h3>Sign Up Form</h3>
 
           <div className="signup-form-div" >
             
@@ -114,14 +114,13 @@ const Signuppage = ({nav1}) => {
                 value={Userpassword}
                 onChange={handlepassword}
                 onBlur={(e)=>handleblur(e.target.value)}
-                // onChange={(e) => setUserpassword(e.target.value)}
                 placeholder="Enter password"
               />
-              {error && <h2 className={`${error}`}>{error}</h2>}
+              {error && <div className={`${error}`}>{error}</div>}
             <button type="submit">Signup</button>
 
-            <div style={{display:"flex",justifyContent:"center",padding:10,fontSize:16}}>
-            <p>Already Have Account ? <span> <Link to="/Login" style={{textDecoration:"none"}}>Login</Link> </span></p>
+            <div>
+            <p>Already Have Account ? <span> <Link to="/Login">Login</Link> </span></p>
             </div>
             </form>
 

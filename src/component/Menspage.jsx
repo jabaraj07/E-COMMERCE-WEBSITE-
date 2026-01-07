@@ -25,6 +25,7 @@ const Menspage = ({nav}) => {
     <>
     {nav}
     {/* <Navbarapp2 islogin={islogin} onLogout={onLogout}/> */}
+    <div style={{ marginTop: '70px' }}>
     <div className="Product-full-div">
       {filterproduct.map((item, indx) => {
         return (
@@ -38,6 +39,7 @@ const Menspage = ({nav}) => {
           </div>
         );
       })}
+    </div>
     </div>
     </>
   );

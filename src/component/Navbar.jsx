@@ -16,7 +16,7 @@ const Navbar = () => {
           context.islogin ? 
           <>
           <div className='main-navigation-full-div' >
-            <h1 style={{color:"white"}}>Fake Store</h1>
+            <h1>Fake Store</h1>
             <div className={`main-navigation-content-div ${first ? 'active' : ''}`}>
             <ul  >
           <li><Link to={'/'}>HOME</Link></li>

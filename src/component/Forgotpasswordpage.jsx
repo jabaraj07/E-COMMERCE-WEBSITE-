@@ -49,42 +49,61 @@ let context=useContext(ProductContext)
     }
   }
   return (
-    <div style={{display:"flex",justifyContent:"center",alignItems:"center",height:"100vh"}}>
-      {
-        state == 1 ? 
-        <>
-        <div style={{width:500,height:280,display:"flex",justifyContent:"center"}}>
-        <form onSubmit={handlesubmit} className="Forgotpassword-form">
-            <h1>Forgot Password</h1>
-          {/* <label htmlFor="Email">Email</label> */}
-          <input
-            type="email"
-            value={verifyemail}
-            onChange={(e) => setverifyemail(e.target.value)}
-            required
-            onFocus={()=>setmessage('')}
-            placeholder="Enter Email"
-          />
-          <button type="submit">Verify</button>
-          {message && <p style={{marginTop:10,color:"red",textAlign:"center"}}>{message}</p>}
-          <div style={{textAlign:"center",padding:15,fontSize:17}}>
-          <p> <Link style={{textDecoration:"none"}} to={'/signup'}>Signup</Link> OR <span> <Link style={{textDecoration:"none"}} to={'/login'}>Login</Link> </span></p>
-          </div>
-        </form>         
+    <div className="forgotpassword-full-div">
+      {state === 1 ? (
+        <div className="forgotpassword-content-div">
+          <h2>Forgot Password</h2>
+          <form onSubmit={handlesubmit} className="forgotpassword-form">
+            <label htmlFor="verifyemail">Email</label>
+            <input
+              type="email"
+              id="verifyemail"
+              value={verifyemail}
+              onChange={(e) => setverifyemail(e.target.value)}
+              required
+              onFocus={() => setmessage('')}
+              placeholder="Enter Email"
+            />
+            <button type="submit">Verify Email</button>
+            {message && <div className="forgotpassword-error-message">{message}</div>}
+            <div className="forgotpassword-links">
+              <p>
+                <Link to={'/signup'}>Signup</Link> OR <Link to={'/login'}>Login</Link>
+              </p>
+            </div>
+          </form>
         </div>
-        </>
-        :
-        <>
-        <form onSubmit={handlepasswordreset} className="Forgotpassword-form1">
-            <h1>Reset Password</h1>
-            <input style={{marginTop:10}} type="text" required placeholder="Enter Password" value={resetpassword} onChange={(e)=>setresetpassword(e.target.value)}/>
-            <input style={{marginTop:10}} type="password" required placeholder="Enter Confirm Password" value={confirmpassword} onChange={(e)=>setconfirmpassword(e.target.value)}/>
-            <button style={{marginTop:10}} type="submit">Submit</button>
-            {message && <p className={iscolor ? `${'greenclass'}` : `${'redclass'}`} >{message}</p>}
-        </form>
-        </>
-// style={{marginTop:10,textAlign:"center",fontSize:"17px",color:"red" }}
-      }
+      ) : (
+        <div className="forgotpassword-content-div">
+          <h2>Reset Password</h2>
+          <form onSubmit={handlepasswordreset} className="forgotpassword-form">
+            <label htmlFor="resetpassword">New Password</label>
+            <input
+              type="password"
+              id="resetpassword"
+              required
+              placeholder="Enter New Password"
+              value={resetpassword}
+              onChange={(e) => setresetpassword(e.target.value)}
+            />
+            <label htmlFor="confirmpassword">Confirm Password</label>
+            <input
+              type="password"
+              id="confirmpassword"
+              required
+              placeholder="Confirm New Password"
+              value={confirmpassword}
+              onChange={(e) => setconfirmpassword(e.target.value)}
+            />
+            <button type="submit">Reset Password</button>
+            {message && (
+              <div className={iscolor ? 'forgotpassword-success-message' : 'forgotpassword-error-message'}>
+                {message}
+              </div>
+            )}
+          </form>
+        </div>
+      )}
     </div>
   );
 };

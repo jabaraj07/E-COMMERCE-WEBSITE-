@@ -17,27 +17,68 @@ const Homepage = ({nav}) => {
       }
     })
    }
+
+   const renderStars = (rating) => {
+     const fullStars = Math.floor(rating)
+     const hasHalfStar = rating % 1 !== 0
+     const stars = []
+     
+     for (let i = 0; i < fullStars; i++) {
+       stars.push(<span key={i}>⭐</span>)
+     }
+     if (hasHalfStar) {
+       stars.push(<span key="half">⭐</span>)
+     }
+     return stars
+   }
+
   return (
     <>
-    {/* <Navbar/> */}
     {nav}
-        <div className="Product-full-div">
+    <>
+    <div style={{ 
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      padding: '3rem 2rem',
+      textAlign: 'center',
+      color: 'white',
+      marginBottom: '2rem'
+    }}>
+      <h1 style={{ fontSize: '3rem', fontWeight: 800, marginBottom: '1rem', textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>
+        Welcome to Fake Store
+      </h1>
+      <p style={{ fontSize: '1.25rem', opacity: 0.9 }}>
+        Discover amazing products at unbeatable prices
+      </p>
+    </div>
+    <div className="Product-full-div">
         {
           context1.data.map((item,indx)=>{
             return(
                 <div key={indx}  className="product-content-div">
                     <h5 className='product-content-title'>{item.title}</h5>
-                    <img src={item.image} width={150}height={150}/>
-                    <h5>PRICE : ${item.price}</h5>
-                    <h5>RATING : {item.rating.rate}</h5>
-                    <h5>IN STOCK : {item.rating.count}</h5>
-                    <button onClick={()=>handleadd(item)}>ADD CART</button>
+                    <img src={item.image} alt={item.title} style={{ width: '100%', height: '200px', objectFit: 'contain' }}/>
+                    <h5 style={{ color: '#6366f1', fontSize: '1.5rem', fontWeight: 700, marginTop: '0.5rem' }}>
+                      ${item.price}
+                    </h5>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', margin: '0.5rem 0' }}>
+                      <div style={{ display: 'flex', gap: '0.2rem' }}>
+                        {renderStars(item.rating.rate)}
+                      </div>
+                      <span style={{ color: '#64748b', fontSize: '0.9rem' }}>
+                        ({item.rating.rate})
+                      </span>
+                    </div>
+                    <h5 style={{ color: '#64748b', fontSize: '0.9rem', margin: '0.25rem 0' }}>
+                      {item.rating.count} in stock
+                    </h5>
+                    <button onClick={()=>handleadd(item)}>ADD TO CART</button>
                 </div>
             )
           })  
         
         }
     </div>
+    </>
     </>
 
   )

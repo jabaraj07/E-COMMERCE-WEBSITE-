@@ -71,7 +71,7 @@ const Productcart = ({nav1}) => {
   return (
       <>
       {nav1}
-          <div>
+          {/* <> */}
       <div className="cart-full-div">
 
         <button disabled={!btnDisable} onClick={handleclear}>
@@ -90,13 +90,27 @@ const Productcart = ({nav1}) => {
                 <div key={indx} className="cart-content-div">
                   <h5 className="cart-content-title">{shorttitle(item.title,40)}</h5>
                   <img src={item.image} />
-                  <h5>PRICE : ${item.price}</h5>
-                  <h5>RATING : {item.rating.rate}</h5>
-                  <h5>IN STOCK : {item.rating.count}</h5>
-                  <h5>Quantity : {item.quantity}</h5>
-                  <button onClick={() => handleremove(indx)}>REMOVE</button>
-                  <button style={{marginLeft:10,marginRight:10}} onClick={() => Handleincrease(item)}>➕</button>
-                  <button onClick={() => Handledecrease(item)}>➖</button>
+                  <div className="cart-product-info">
+                    <div className="cart-info-item">
+                      <span className="cart-info-label">Price</span>
+                      <span className="cart-info-value">${item.price}</span>
+                    </div>
+                    <div className="cart-info-item">
+                      <span className="cart-info-label">Rating</span>
+                      <span className="cart-info-value">⭐ {item.rating.rate}</span>
+                    </div>
+                    <div className="cart-info-item">
+                      <span className="cart-info-label">Stock</span>
+                      <span className="cart-info-value">{item.rating.count}</span>
+                    </div>
+                  </div>
+                  <div className="cart-quantity-controls">
+                    <span className="cart-quantity-label">Quantity:</span>
+                    <button className="cart-quantity-btn" onClick={() => Handledecrease(item)}>−</button>
+                    <span className="cart-quantity-value">{item.quantity}</span>
+                    <button className="cart-quantity-btn" onClick={() => Handleincrease(item)}>+</button>
+                  </div>
+                  <button className="cart-remove-btn" onClick={() => handleremove(indx)}>Remove Item</button>
                 </div>
               );
             })}
@@ -116,7 +130,7 @@ const Productcart = ({nav1}) => {
         )}
         
       </div>
-    </div>
+    {/* </> */}
       </>
   );
 };

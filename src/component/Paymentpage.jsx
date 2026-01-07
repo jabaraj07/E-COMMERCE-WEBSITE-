@@ -51,15 +51,53 @@ const Paymentpage = () => {
     const currentdate = new Date();
     const currentmonth = String(currentdate.getMonth() + 1).padStart(2, "0");
     const currentyear = String(currentdate.getFullYear());
-    if (
-      /^\d{3}$/.test(cvvnumber) &&
-      /^\d{16}$/.test(cardnumber) &&
-      ((expiryyear === currentyear && expirymonth >= currentmonth) ||
-        expiryyear > currentyear)
-    ) {
-      nav("/otp");
-    //   context.setisotp(true)
+    
+    // Clear previous errors
+    seterror("");
+    
+    // Validate card number
+    if (!cardnumber || !/^\d{16}$/.test(cardnumber)) {
+      seterror("Card number must be exactly 16 digits");
+      return;
     }
+    
+    // Validate expiry month
+    if (!expirymonth || expirymonth === "" || Number(expirymonth) < 1 || Number(expirymonth) > 12) {
+      seterror("Please select a valid month");
+      return;
+    }
+    
+    // Validate expiry year
+    if (!expiryyear || expiryyear.length !== 4) {
+      seterror("Expiry year must be 4 digits");
+      return;
+    }
+    
+    // Validate expiry date is not in the past
+    const monthNum = Number(expirymonth);
+    const yearNum = Number(expiryyear);
+    if (
+      (expiryyear === currentyear && monthNum < Number(currentmonth)) ||
+      yearNum < Number(currentyear)
+    ) {
+      seterror("Expiry month & year must be current or in the future");
+      return;
+    }
+    
+    // Validate CVV
+    if (!cvvnumber || !/^\d{3}$/.test(cvvnumber)) {
+      seterror("CVV number must be exactly 3 digits");
+      return;
+    }
+    
+    // Validate card holder name
+    if (!cardholdername || cardholdername.trim() === "") {
+      seterror("Card holder name is required");
+      return;
+    }
+    
+    // All validations passed
+    nav("/otp");
   };
 
   const handlenumber = (category, value) => {
@@ -97,7 +135,7 @@ const [focusinput, setfocusinput] = useState({})
     }
   }
   return (
-    <div className="payment-full-div">
+    <div className="payment-full-div" style={{ marginTop: '75px' }}>
       <div className="payment-content-div">
         <h2 className="payment-content-heading">Credit/Debit Card payment</h2>
 
@@ -123,11 +161,11 @@ const [focusinput, setfocusinput] = useState({})
               <div className="input-container">
               <label className={focusinput['Number'] ? 'active':''} htmlFor="cardholdernumber">Card Number  </label>
               <input
-              type="number"
+              type="text"
               value={cardnumber}
               onChange={(e) => handlenumber("number", e.target.value)}
               id="cardholdernumber"
-              // placeholder="Enter Name"
+              maxLength={16}
               onFocus={()=>handlefocus('Number')}
               onBlur={(e)=>handleblur('Number',e.target.value)}
               required
@@ -152,11 +190,11 @@ const [focusinput, setfocusinput] = useState({})
             <div className="input-container">
             <label className={focusinput['Year'] ? 'active':''} htmlFor="cardexpYear">Expiry Year </label>
             <input
-              type="number"
+              type="text"
               value={expiryyear}
               onChange={(e) => handlenumber("year", e.target.value)}
               id="cardexpYear"
-              // placeholder="Enter Year"
+              maxLength={4}
               onFocus={()=>handlefocus('Year')}
               onBlur={(e)=>handleblur('Year',e.target.value)}
               required
@@ -166,103 +204,22 @@ const [focusinput, setfocusinput] = useState({})
             <div className="input-container">
             <label className={focusinput['Card'] ? 'active':''} htmlFor="cardCvv"> CVV </label>
             <input
-              type="number"
+              type="text"
               value={cvvnumber}
               onChange={(e) => handlenumber("cvv", e.target.value)}
               id="cardCvv"
-              // placeholder="Enter CVV"
+              maxLength={3}
               onFocus={()=>handlefocus('Card')}
               onBlur={(e)=>handleblur('Card',e.target.value)}
               required
             />
             </div>
             
-            <h3 style={{padding:10,fontSize:20,color:"red"}}>{error}</h3>
-            <button onClick={handletohome} style={{width:"100%",padding:20}}>
+            {error && <div className="payment-error-message">{error}</div>}
+            <button type="button" onClick={handletohome} className="payment-submit-button">
               Pay : ${context.total}
             </button>
             </div>
-
-
-            {/* <div className="input-container">
-            <input
-              type="text"
-              value={cardholdername}
-              onChange={(e) => setcardholdername(e.target.value)}
-              id="cardholdername"
-              required
-              // placeholder="Enter Name"
-              onFocus={()=>handlefocus('Name')}
-              onBlur={(e)=>handleblur('Name',e.target.value)}
-            />
-            <label className={focusinput['Name'] ? 'active':''} htmlFor="cardholdername">Card HolderName  </label>
-
-            </div> */}
-{/* 
-            <div className="input-container">
-            <input
-              type="number"
-              value={cardnumber}
-              onChange={(e) => handlenumber("number", e.target.value)}
-              id="cardholdernumber"
-              onFocus={()=>handlefocus('Number')}
-              onBlur={(e)=>handleblur('Number',e.target.value)}
-              required
-            />
-            <label className={focusinput['Number'] ? 'active':''} htmlFor="cardholdernumber">Card Number  </label>
-            </div> */}
-
-
-            {/* <label htmlFor="cardexpmonth">Expiry Month : </label>
-            <input type="number" value={expirymonth} onChange={(e)=>handlenumber("month",e.target.value)} id='cardexpmonth' required placeholder='Enter Month'/> */}
-            {/* <label htmlFor="cardexpmonth">Expiry Month : </label> */}
-
-            {/* <div className="select-div">
-            <select
-              // style={{ width: 350, height: 150 }}
-              value={expirymonth}
-              required
-              onChange={(e) => setexpirymonth(e.target.value)}
-              id="cardexpmonth"
-            >
-              <option value="">Select Month</option>
-              {[...Array(12)].map((_, i) => (
-                <option key={i + 1}>{String(i + 1).padStart(2, "0")}</option>
-              ))}
-            </select>    
-            </div> */}
-
-            {/* <div className="input-container">
-            <input
-              type="number"
-              value={expiryyear}
-              onChange={(e) => handlenumber("year", e.target.value)}
-              id="cardexpYear"
-              onFocus={()=>handlefocus('Year')}
-              onBlur={(e)=>handleblur('Year',e.target.value)}
-              required
-            />
-            <label className={focusinput['Year'] ? 'active':''} htmlFor="cardexpYear">Expiry Year </label>
-            </div> */}
-
-            {/* <div className="input-container">
-            <input
-              type="number"
-              value={cvvnumber}
-              onChange={(e) => handlenumber("cvv", e.target.value)}
-              id="cardCvv"
-              onFocus={()=>handlefocus('Card')}
-              onBlur={(e)=>handleblur('Card',e.target.value)}
-              required
-            />
-            <label className={focusinput['Card'] ? 'active':''} htmlFor="cardCvv"> CVV </label>
-            </div> */}
-
-
-            {/* <h3 style={{padding:10,fontSize:20,color:"red"}}>{error}</h3>
-            <button onClick={handletohome} className="payment-button">
-              Pay : ${context.total}
-            </button> */}
           </form>
         </div>
       </div>

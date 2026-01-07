@@ -36,7 +36,7 @@ const Loginpage = ({ onlogin }) => {
       {
         <div className="Login-full-div">
           <div className="Login-content-full-div">
-            <h3 style={{ textAlign: "center", marginTop: 20 }}>Login Form</h3>
+            <h3>Login Form</h3>
             
             <div className="Login-form-div">
               <form onSubmit={handlesubmit} className="Login-form">
@@ -63,20 +63,17 @@ const Loginpage = ({ onlogin }) => {
                 <button type="submit">Login</button>
 
                 <div className="Link-div">
-                <p className="" style={{ marginTop: 10 }}>
+                <p>
                   Dont Have Account ?{" "} <br />
                 
                   <span className="Login-Link">
                     {" "}
-                    <Link style={{ textDecoration: "none" }} to={"/signup"}>
+                    <Link to={"/signup"}>
                       SignUp
                     </Link>{" "}
                   </span>{" "} | {" "}
                   <span className="Login-Link">
-                    <Link
-                      style={{ textDecoration: "none" }}
-                      to={"/ForgotPassword"}
-                    >
+                    <Link to={"/ForgotPassword"}>
                       ForgotPassword
                     </Link>{" "}
                   </span>
